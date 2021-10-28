@@ -58,11 +58,11 @@ Python interactive shell demo use case:
 >>>
 >>> sample = TimedInput()
 >>> sample2 = sample.take(timeout=10)
-Hello									# Entered "Hello" on keyboard
+Hello                                   # Entered "Hello" on keyboard
 >>> print(sample2)
 Hello
 >>> sample3 = sample.take(timeout=10)
-										# Entered nothing, waited for timeout
+                                        # Entered nothing, waited for timeout
 >>> print(sample3)
 None
 >>> print(sample3 is None)
