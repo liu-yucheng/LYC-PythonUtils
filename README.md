@@ -1,4 +1,5 @@
 # LYC-PythonUtils
+
 My personal Python utilities.
 
 # Installing Using `pip`
@@ -15,9 +16,11 @@ My personal Python utilities.
 
 `lyc_pyutils.dotdict.DotDict`
 
+Shortcut: `lyc_pyutils.DotDict`
+
 Python interactive shell demo use case:
 
-``````python
+```python
 >>> from lyc_pyutils import dotdict
 >>> DotDict = dotdict.DotDict
 >>>
@@ -44,11 +47,13 @@ World
 >>> print(sample2)
 {'attr1': 1, 'attr2': 1.1, 'attr3': True, 'attr4': 'Hello', 'attr5': {'hello': 'World'}}
 >>>
-``````
+```
 
 ## `TimedInput`
 
 `lyc_pyutils.timedinput.TimedInput`
+
+Shortcut: `lyc_pyutils.TimedInput`
 
 Python interactive shell demo use case:
 
@@ -70,3 +75,23 @@ True
 >>>
 ```
 
+
+## `FuncThread`
+
+`lyc_pyutils.functhread.FuncThread`
+
+Shortcut: `lyc_pyutils.FuncThread`
+
+Python interactive shell demo use case:
+
+```python
+>>> import lyc_pyutils
+>>> def func():
+...   return "Hello world!"
+...
+>>> thread = lyc_pyutils.FuncThread(target=func, args=[])
+>>> thread.start()
+>>> thread.join(timeout=None)
+'Hello world!'
+>>>
+```
