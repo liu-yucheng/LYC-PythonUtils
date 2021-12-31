@@ -15,7 +15,7 @@ import setuptools
 def main():
     setuptools.setup(
         name="lyc-pyutils",
-        version="0.1.1",
+        version="0.2.0",
         description="LYC Python Utilities",
         author="Yucheng Liu",
         packages=setuptools.find_packages(),
