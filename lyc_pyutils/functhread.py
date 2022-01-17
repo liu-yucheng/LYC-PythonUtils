@@ -1,7 +1,9 @@
 """Functional thread."""
 
-# Initially added by: liu-yucheng
-# Last updated by: liu-yucheng
+# Copyright 2022 Yucheng Liu. GNU GPL3 license.
+# GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+# First added by username: liu-yucheng
+# Last updated by username: liu-yucheng
 
 import threading
 
@@ -14,6 +16,9 @@ class FuncThread(_Thread):
     A Python standard library thread with return values.
     """
 
+    # Copyright 2022 Yucheng Liu. GNU GPL3 license.
+    # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+
     def __init__(self, group=None, target=None, name=None, args=(), kwargs={}, *, daemon=None):
         """Inits self with the given args.
 
@@ -23,7 +28,7 @@ class FuncThread(_Thread):
             name: Name.
             args: Arguments.
             kwargs: Keyword arguments.
-            *: Variable arguments.
+            *: Positional-keyword and keyword arguments separator
             daemon: Daemon thread switch.
         """
         super().__init__(group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon)
@@ -34,8 +39,10 @@ class FuncThread(_Thread):
 
     def run(self):
         """Runs the thread."""
-        # Adopted from CPython standard library threading source code.
+
+        # Based on CPython standard library threading source code.
         # Ref: https://github.com/python/cpython/blob/main/Lib/threading.py
+
         try:
             if self._target is not None:
                 self._result = self._target(*self._args, **self._kwargs)

@@ -1,16 +1,21 @@
 """Dot dictionary."""
 
-# Initially added by: liu-yucheng
-# Last updated by: liu-yucheng
+# Copyright 2022 Yucheng Liu. GNU GPL3 license.
+# GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+# First added by username: liu-yucheng
+# Last updated by username: liu-yucheng
 
 
 class DotDict:
     """Dot dictionary.
 
-    A dictionary whose items can be accessed with the "dict.key" syntax. Dot dictionary is recursively compatible with
-    the Python standard library dict. 4 trailing underscores added to all public method names to avoid key /
-    attribute naming confusions.
+    A dictionary whose items can be accessed with the "dict.key" syntax.
+    Dot dictionary is recursively compatible with the Python standard library dict.
+    4 trailing underscores added to all public method names to avoid key or attribute naming confusions.
     """
+
+    # Copyright 2022 Yucheng Liu. GNU GPL3 license.
+    # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
 
     @classmethod
     def fromdict____(cls, dic):
