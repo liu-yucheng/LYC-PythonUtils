@@ -1,27 +1,33 @@
-"""Package setup executable module.
+"""Package setup executable.
 
-When called by a package manager (pip/conda/python), this executable informs the package manager about how to install
-the source directory as a package. The "entry_points" parameter of the setup function specifies the function to call
-when the user enters the corresponding command on the command line. The "entry_points" elements takes the form of
-"command = package.module.submodule. ... .submodule:function"
+To be called by a package manager (pip or conda or others).
+NOT supposed to be executed directly (via python or py).
+Tells the package manager the way to install the source directory as a package.
+The "entry_points" parameter of the setup function specifies the function to call when the user enters the
+    corresponding command via the command line.
 """
 
-# Initially added by: liu-yucheng
-# Last updated by: liu-yucheng
+# Copyright 2022 Yucheng Liu. GNU GPL3 license.
+# GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+# First added by username: liu-yucheng
+# Last updated by username: liu-yucheng
 
 import setuptools
 
+_find_packages = setuptools.find_packages
+_setup = setuptools.setup
+
 
 def main():
-    setuptools.setup(
+    _setup(
         name="lyc-pyutils",
-        version="0.2.0",
-        description="LYC Python Utilities",
+        version="0.3.0",
+        description="LYC's personal Python utilities.",
         author="Yucheng Liu",
-        packages=setuptools.find_packages(),
+        packages=_find_packages(),
         entry_points={
             "console_scripts": []
-        }
+        }  # ,
         # test_suite="tests"
     )
 
