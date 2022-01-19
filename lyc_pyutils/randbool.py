@@ -19,6 +19,7 @@ def rand_bool():
         result: the random boolean
     """
 
+    # Part of LYC-PythonUtils
     # Copyright 2022 Yucheng Liu. GNU GPL3 license.
     # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
 
