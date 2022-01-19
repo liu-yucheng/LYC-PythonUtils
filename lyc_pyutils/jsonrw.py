@@ -20,6 +20,11 @@ def load_json(from_file):
     Returns:
         result: the dict
     """
+
+    # Part of LYC-PythonUtils
+    # Copyright 2022 Yucheng Liu. GNU GPL3 license.
+    # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+
     from_file = str(from_file)
 
     file = open(from_file, "r")
@@ -37,6 +42,11 @@ def save_json(from_dict, to_file):
         from_dict: the dict object
         to_file: the JSON file location
     """
+
+    # Part of LYC-PythonUtils
+    # Copyright 2022 Yucheng Liu. GNU GPL3 license.
+    # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+
     from_dict = dict(from_dict)
     to_file = str(to_file)
 

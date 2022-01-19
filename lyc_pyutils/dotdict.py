@@ -14,6 +14,7 @@ class DotDict:
     4 trailing underscores added to all public method names to avoid key or attribute naming confusions.
     """
 
+    # Part of LYC-PythonUtils
     # Copyright 2022 Yucheng Liu. GNU GPL3 license.
     # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
 
