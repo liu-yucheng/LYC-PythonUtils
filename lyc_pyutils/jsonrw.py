@@ -32,6 +32,7 @@ def load_json(from_file):
     file.close()
 
     result = to_dict
+    result = dict(result)
     return result
 
 
