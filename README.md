@@ -121,6 +121,18 @@ Shortcut: `lyc_pyutils.load_json`
 
 Shortcut: `lyc_pyutils.save_json`
 
+## `load_json_str`
+
+`lyc_pyutils.jsonrw.load_json_str`
+
+Shortcut: `lyc_pyutils.load_json_str`
+
+## `save_json_str`
+
+`lyc_pyutils.jsonrw.save_json_str`
+
+Shortcut: `lyc_pyutils.save_json_str`
+
 ## `logstr`
 
 `lyc_pyutils.batchlog.logstr`
