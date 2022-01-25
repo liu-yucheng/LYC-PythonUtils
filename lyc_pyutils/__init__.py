@@ -22,6 +22,8 @@ rand_bool = randbool.rand_bool
 
 load_json = jsonrw.load_json
 save_json = jsonrw.save_json
+load_json_str = jsonrw.load_json_str
+save_json_str = jsonrw.save_json_str
 
 logstr = batchlog.logstr
 logln = batchlog.logln
