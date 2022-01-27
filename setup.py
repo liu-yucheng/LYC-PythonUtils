@@ -21,14 +21,14 @@ _setup = setuptools.setup
 def main():
     _setup(
         name="lyc-pyutils",
-        version="0.6.0",
+        version="0.7.0",
         description="LYC's personal Python utilities.",
         author="Yucheng Liu",
         packages=_find_packages(),
         entry_points={
             "console_scripts": []
         }  # ,
-        # test_suite="tests"
+        # test_suite="lyc_pyutils.tests"
     )
 
 
