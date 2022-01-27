@@ -9,7 +9,7 @@ Last updated by username: liu-yucheng
 
 My personal Python utilities.
 
-# Installing Using `pip`
+# Installation (Using `pip`)
 
 - Go to the root directory of this repo.
 - The requirements.txt is empty. No dependency installations required.
@@ -19,11 +19,11 @@ My personal Python utilities.
 
 # Using The Utilities
 
-## `DotDict `
-
-`lyc_pyutils.dotdict.DotDict`
+## `DotDict` (`lyc_pyutils.libs.dotdict.DotDict`)
 
 Shortcut: `lyc_pyutils.DotDict`
+
+Dot dictionary.
 
 Python interactive shell demo use case:
 
@@ -56,11 +56,11 @@ World
 >>>
 ```
 
-## `TimedInput`
-
-`lyc_pyutils.timedinput.TimedInput`
+## `TimedInput` (`lyc_pyutils.libs.timedinput.TimedInput`)
 
 Shortcut: `lyc_pyutils.TimedInput`
+
+Python "native" and platform independent timed input.
 
 Python interactive shell demo use case:
 
@@ -82,12 +82,11 @@ True
 >>>
 ```
 
-
-## `FuncThread`
-
-`lyc_pyutils.functhread.FuncThread`
+## `FuncThread` (`lyc_pyutils.libs.functhread.FuncThread`)
 
 Shortcut: `lyc_pyutils.FuncThread`
+
+An extended Python standard library thread with return value(s).
 
 Python interactive shell demo use case:
 
@@ -103,47 +102,69 @@ Python interactive shell demo use case:
 >>>
 ```
 
-## `rand_bool`
-
-`lyc_pyutils.randbool.rand_bool`
+## `rand_bool` (`lyc_pyutils.libs.randbool.rand_bool`)
 
 Shortcut: `lyc_pyutils.rand_bool`
 
-## `load_json`
+Random boolean value generator.
 
-`lyc_pyutils.jsonrw.load_json`
+## `load_json` (`lyc_pyutils.libs.jsonrw.load_json`)
 
 Shortcut: `lyc_pyutils.load_json`
 
-## `save_json`
+Loads a JSON object from a text file and returns the object.
 
-`lyc_pyutils.jsonrw.save_json`
+NOTE: the returned object has inferred types.
+
+## `save_json` (`lyc_pyutils.libs.jsonrw.save_json`)
 
 Shortcut: `lyc_pyutils.save_json`
 
-## `load_json_str`
+Saves a JSON object to a text file.
 
-`lyc_pyutils.jsonrw.load_json_str`
+## `load_json_str` (`lyc_pyutils.libs.jsonrw.load_json_str`)
 
 Shortcut: `lyc_pyutils.load_json_str`
 
-## `save_json_str`
+Loads a JSON object from a string and returns the object.
 
-`lyc_pyutils.jsonrw.save_json_str`
+NOTE: the returned object has inferred types.
+
+## `save_json_str` (`lyc_pyutils.libs.jsonrw.save_json_str`)
 
 Shortcut: `lyc_pyutils.save_json_str`
 
-## `logstr`
+Saves a JSON object to a string and returns the string.
 
-`lyc_pyutils.batchlog.logstr`
+## `logstr` (`lyc_pyutils.libs.batchlog.logstr`)
 
 Shortcut: `lyc_pyutils.logstr`
 
-## `logln`
+Logs a string to a list of logs.
 
-`lyc_pyutils.batchlog.logln`
+## `logln` (`lyc_pyutils.libs.batchlog.logln`)
 
 Shortcut: `lyc_pyutils.logln`
+
+Logs a line to a list of logs.
+
+## `flushlogs` (`lyc_pyutils.libs.batchlog.flushlogs`)
+
+Shortcut: `lyc_pyutils.flushlogs`
+
+Flushes each log in a list of logs.
+
+## `load_text` (`lyc_pyutils.libs.textrw.load_text`)
+
+Shortcut: `lyc_pyutils.load_text`
+
+Loads the data from a text file to a string and returns the string.
+
+## `save_text` (`lyc_pyutils.libs.textrw.save_text`)
+
+Shortcut: `lyc_pyutils.save_text`
+
+Saves a string to a text file.
 
 # Miscellaneous
 ## Versioning

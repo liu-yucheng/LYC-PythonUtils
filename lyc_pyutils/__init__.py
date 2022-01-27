@@ -5,12 +5,14 @@
 # First added by username: liu-yucheng
 # Last updated by username: liu-yucheng
 
-from lyc_pyutils import dotdict
-from lyc_pyutils import functhread
-from lyc_pyutils import timedinput
-from lyc_pyutils import randbool
-from lyc_pyutils import jsonrw
-from lyc_pyutils import batchlog
+from lyc_pyutils.libs import batchlog
+from lyc_pyutils.libs import dotdict
+from lyc_pyutils.libs import functhread
+from lyc_pyutils.libs import jsonrw
+from lyc_pyutils.libs import randbool
+from lyc_pyutils.libs import textrw
+from lyc_pyutils.libs import timedinput
+
 
 DotDict = dotdict.DotDict
 
@@ -27,3 +29,7 @@ save_json_str = jsonrw.save_json_str
 
 logstr = batchlog.logstr
 logln = batchlog.logln
+flushlogs = batchlog.flushlogs
+
+load_text = textrw.load_text
+save_text = textrw.save_text
