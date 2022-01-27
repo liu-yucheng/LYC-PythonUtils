@@ -50,3 +50,21 @@ def logln(logs, line=""):
     for log in logs:
         log: _IO
         log.write(line)
+
+
+def flushlogs(logs):
+    """Flushes the logs.
+
+    Args:
+        logs: the log file objects
+    """
+
+    # Part of LYC-PythonUtils
+    # Copyright 2022 Yucheng Liu. GNU GPL3 license.
+    # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+
+    logs = list(logs)
+
+    for log in logs:
+        log: _IO
+        log.flush()
