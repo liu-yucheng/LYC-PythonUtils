@@ -21,7 +21,7 @@ _setup = setuptools.setup
 def main():
     _setup(
         name="lyc-pyutils",
-        version="0.7.0",
+        version="0.8.0",
         description="LYC's personal Python utilities.",
         author="Yucheng Liu",
         packages=_find_packages(),
