@@ -19,9 +19,10 @@ My personal Python utilities.
 
 # Using The Utilities
 
-## `DotDict` (`lyc_pyutils.libs.dotdict.DotDict`)
+## `DotDict`
 
-Shortcut: `lyc_pyutils.DotDict`
+- Full path: `lyc_pyutils.libs.dotdict.DotDict`
+- Shortcut: `lyc_pyutils.DotDict`
 
 Dot dictionary.
 
@@ -56,9 +57,10 @@ World
 >>>
 ```
 
-## `TimedInput` (`lyc_pyutils.libs.timedinput.TimedInput`)
+## `TimedInput`
 
-Shortcut: `lyc_pyutils.TimedInput`
+- Full path: `lyc_pyutils.libs.timedinput.TimedInput`
+- Shortcut: `lyc_pyutils.TimedInput`
 
 Python "native" and platform independent timed input.
 
@@ -82,9 +84,10 @@ True
 >>>
 ```
 
-## `FuncThread` (`lyc_pyutils.libs.functhread.FuncThread`)
+## `FuncThread`
 
-Shortcut: `lyc_pyutils.FuncThread`
+- Full path: `lyc_pyutils.libs.functhread.FuncThread`
+- Shortcut: `lyc_pyutils.FuncThread`
 
 An extended Python standard library thread with return value(s).
 
@@ -102,67 +105,133 @@ Python interactive shell demo use case:
 >>>
 ```
 
-## `rand_bool` (`lyc_pyutils.libs.randbool.rand_bool`)
+## `rand_bool`
 
-Shortcut: `lyc_pyutils.rand_bool`
+- Full path: `lyc_pyutils.libs.randbool.rand_bool`
+- Shortcut: `lyc_pyutils.rand_bool`
 
 Random boolean value generator.
 
-## `load_json` (`lyc_pyutils.libs.jsonrw.load_json`)
+Python interactive shell demo use case:
 
-Shortcut: `lyc_pyutils.load_json`
+```python
+>>> import lyc_pyutils
+>>> lyc_pyutils.rand_bool()
+False
+>>> lyc_pyutils.rand_bool()
+False
+>>> lyc_pyutils.rand_bool()
+False
+>>> lyc_pyutils.rand_bool()
+True
+>>> lyc_pyutils.rand_bool()
+True
+>>> lyc_pyutils.rand_bool()
+True
+>>> lyc_pyutils.rand_bool()
+True
+>>> lyc_pyutils.rand_bool()
+True
+>>> lyc_pyutils.rand_bool()
+False
+>>> lyc_pyutils.rand_bool()
+False
+>>> lyc_pyutils.rand_bool()
+False
+>>> lyc_pyutils.rand_bool()
+True
+>>>
+```
+
+## `load_json`
+
+- Full path: `lyc_pyutils.libs.jsonrw.load_json`
+- Shortcut: `lyc_pyutils.load_json`
 
 Loads a JSON object from a text file and returns the object.
 
 NOTE: the returned object has inferred types.
 
-## `save_json` (`lyc_pyutils.libs.jsonrw.save_json`)
+## `save_json`
 
-Shortcut: `lyc_pyutils.save_json`
+- Full path: `lyc_pyutils.libs.jsonrw.save_json`
+- Shortcut: `lyc_pyutils.save_json`
 
 Saves a JSON object to a text file.
 
-## `load_json_str` (`lyc_pyutils.libs.jsonrw.load_json_str`)
+## `load_json_str`
 
-Shortcut: `lyc_pyutils.load_json_str`
+- Full path: `lyc_pyutils.libs.jsonrw.load_json_str`
+- Shortcut: `lyc_pyutils.load_json_str`
 
 Loads a JSON object from a string and returns the object.
 
 NOTE: the returned object has inferred types.
 
-## `save_json_str` (`lyc_pyutils.libs.jsonrw.save_json_str`)
+Python interactive shell demo use case:
 
-Shortcut: `lyc_pyutils.save_json_str`
+```python
+>>> import lyc_pyutils
+>>> cfg1 = fr"""
+... {{
+...     "config": "config1"
+... }}
+... """
+>>> loaded_cfg1 = lyc_pyutils.load_json_str(cfg1)
+>>> loaded_cfg1
+{'config': 'config1'}
+>>>
+```
+
+## `save_json_str`
+
+- Full path: `lyc_pyutils.libs.jsonrw.save_json_str`
+- Shortcut: `lyc_pyutils.save_json_str`
 
 Saves a JSON object to a string and returns the string.
 
-## `logstr` (`lyc_pyutils.libs.batchlog.logstr`)
+Python interactive shell demo use case:
 
-Shortcut: `lyc_pyutils.logstr`
+```python
+>>> import lyc_pyutils
+>>> cfg1 = {"config": "config1"}
+>>> lyc_pyutils.save_json_str(cfg1)
+'{\n    "config": "config1"\n}'
+>>>
+```
+
+## `logstr`
+
+- Full path: `lyc_pyutils.libs.batchlog.logstr`
+- Shortcut: `lyc_pyutils.logstr`
 
 Logs a string to a list of logs.
 
-## `logln` (`lyc_pyutils.libs.batchlog.logln`)
+## `logln`
 
-Shortcut: `lyc_pyutils.logln`
+- Full path: `lyc_pyutils.libs.batchlog.logln`
+- Shortcut: `lyc_pyutils.logln`
 
 Logs a line to a list of logs.
 
-## `flushlogs` (`lyc_pyutils.libs.batchlog.flushlogs`)
+## `flushlogs`
 
-Shortcut: `lyc_pyutils.flushlogs`
+- Full path: `lyc_pyutils.libs.batchlog.flushlogs`
+- Shortcut: `lyc_pyutils.flushlogs`
 
 Flushes each log in a list of logs.
 
-## `load_text` (`lyc_pyutils.libs.textrw.load_text`)
+## `load_text`
 
-Shortcut: `lyc_pyutils.load_text`
+- Full path: `lyc_pyutils.libs.textrw.load_text`
+- Shortcut: `lyc_pyutils.load_text`
 
 Loads the data from a text file to a string and returns the string.
 
-## `save_text` (`lyc_pyutils.libs.textrw.save_text`)
+## `save_text`
 
-Shortcut: `lyc_pyutils.save_text`
+- Full path: `lyc_pyutils.libs.textrw.save_text`
+- Shortcut: `lyc_pyutils.save_text`
 
 Saves a string to a text file.
 
