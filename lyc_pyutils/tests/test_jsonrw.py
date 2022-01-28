@@ -1,4 +1,4 @@
-"""Executable that tests the batch log utilities."""
+"""Executable that tests the json reading and writing utilities."""
 
 # Copyright 2022 Yucheng Liu. GNU GPL3 license.
 # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
@@ -20,7 +20,6 @@ _copytree = shutil.copytree
 _IO = typing.IO
 _join = ospath.join
 _jsonload = json.load
-_jsonloads = json.loads
 _makedirs = os.makedirs
 _Path = pathlib.Path
 _rmtree = shutil.rmtree
@@ -352,6 +351,7 @@ class TestSaveJSONStr(_BaseCase):
         )
 
         actual = cfg3_str
+        actual = _fix_newline_format(actual)
 
         expect = fr"""
 
@@ -362,9 +362,11 @@ class TestSaveJSONStr(_BaseCase):
 }}
 
         """
-        expect = expect.strip()
 
-        self._match_values(actual, expect, not_match_info, match_info)
+        expect = expect.strip()
+        expect = _fix_newline_format(expect)
+
+        self._match_values(_dquote_repr(actual), _dquote_repr(expect), not_match_info, match_info)
 
         self._log_method_end(method_name)
 
