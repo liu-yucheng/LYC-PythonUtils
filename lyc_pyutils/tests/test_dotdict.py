@@ -35,6 +35,14 @@ _test_data_path = _join(_repo_path, ".lyc_pyutils_test_data")
 _log_loc = _join(_test_data_path, "log.txt")
 
 
+def _dquote_repr(instr):
+    instr = str(instr)
+
+    result = repr(instr)[1: -1]
+    result = f"\"{result}\""
+    return result
+
+
 class _BaseCase(_TestCase):
 
     def __init__(self, methodName):
@@ -141,7 +149,7 @@ class TestDotdict(_BaseCase):
 
         actual = dotdict.a4
         expect = None
-        self._match_values(actual, expect, not_match_info, match_info)
+        self._match_values(_dquote_repr(actual), _dquote_repr(expect), not_match_info, match_info)
 
         actual = dotdict.a5
         expect = "str"

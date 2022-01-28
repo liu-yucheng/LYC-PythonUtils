@@ -29,7 +29,7 @@ class FuncThread(_Thread):
             name: Name.
             args: Arguments.
             kwargs: Keyword arguments.
-            *: Positional-keyword and keyword arguments separator
+            *: Positional-keyword and keyword-only arguments separator.
             daemon: Daemon thread switch.
         """
         super().__init__(group=group, target=target, name=name, args=args, kwargs=kwargs, daemon=daemon)
