@@ -1,0 +1,5 @@
+{
+    "config": "config1",
+    "jsonrw": "test",
+    "test": "jsonrw"
+}
