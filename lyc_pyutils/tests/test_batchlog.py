@@ -373,19 +373,19 @@ class TestFlushlogs(_BaseCase):
             lines_to_log
         ]
 
-        match_info = str(
-            f"Log contents matches\n"
-            f"Log file location: {{}}\n"
-            f"Log and supposed contents:\n"
-            f"{{}}"
-        )
-
         not_match_info = str(
             f"Log contents do not match\n"
             f"Log file location: {{}}\n"
             f"Log contents:\n"
             f"{{}}\n"
             f"Supposed contents:\n"
+            f"{{}}"
+        )
+
+        match_info = str(
+            f"Log contents matches\n"
+            f"Log file location: {{}}\n"
+            f"Log and supposed contents:\n"
             f"{{}}"
         )
 
@@ -399,9 +399,8 @@ class TestFlushlogs(_BaseCase):
             contents = _fix_newline_format(contents)
             lines = log_lines[idx]
             fail_msg = not_match_info.format(loc, _dquote_repr(contents), _dquote_repr(lines))
-            self.assertTrue(contents == lines, fail_msg)
-
             success_msg = match_info.format(loc, _dquote_repr(contents))
+            self.assertTrue(contents == lines, fail_msg)
             self._logln(success_msg)
         # end for
 
