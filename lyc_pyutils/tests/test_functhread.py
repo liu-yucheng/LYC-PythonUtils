@@ -34,6 +34,8 @@ _repo_path = _Path(_tests_path).parent.parent
 _test_data_path = _join(_repo_path, ".lyc_pyutils_test_data")
 _log_loc = _join(_test_data_path, "log.txt")
 
+_timeout = float(10)
+
 
 class _BaseCase(_TestCase):
 
@@ -115,7 +117,7 @@ class TestFuncThread(_BaseCase):
 
         fthread = _LYCFuncThread(target=say_hello, args=["world"])
         fthread.start()
-        fthread_result = fthread.join()
+        fthread_result = fthread.join(_timeout)
 
         not_match_info = str(
             f"FuncThread result does not match\n"
