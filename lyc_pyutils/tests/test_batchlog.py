@@ -118,13 +118,7 @@ class TestLogstr(_BaseCase):
         """Initializes self with the given args."""
         super().__init__(methodName)
 
-        self._test_log_locs = [
-            _join(_test_batchlog_path, "log1.txt"),
-            _join(_test_batchlog_path, "log2.txt"),
-            _join(_test_batchlog_path, "log3.txt"),
-            _join(_test_batchlog_path, "log4.txt")
-        ]
-
+        self._test_log_locs = []
         self._test_logs: list[_IO] = []
 
     def setUp(self):
@@ -133,6 +127,13 @@ class TestLogstr(_BaseCase):
 
         _rmtree(_test_batchlog_path, ignore_errors=True)
         _copytree(_default_test_batchlog_path, _test_batchlog_path)
+
+        self._test_log_locs = [
+            _join(_test_batchlog_path, "log1.txt"),
+            _join(_test_batchlog_path, "log2.txt"),
+            _join(_test_batchlog_path, "log3.txt"),
+            _join(_test_batchlog_path, "log4.txt")
+        ]
 
         for loc in self._test_log_locs:
             file = open(loc, "a+")
@@ -217,13 +218,7 @@ class TestLogln(_BaseCase):
         """Initializes self with the given args."""
         super().__init__(methodName)
 
-        self._test_log_locs = [
-            _join(_test_batchlog_path, "log1.txt"),
-            _join(_test_batchlog_path, "log2.txt"),
-            _join(_test_batchlog_path, "log3.txt"),
-            _join(_test_batchlog_path, "log4.txt")
-        ]
-
+        self._test_log_locs = []
         self._test_logs: list[_IO] = []
 
     def setUp(self):
@@ -232,6 +227,13 @@ class TestLogln(_BaseCase):
 
         _rmtree(_test_batchlog_path, ignore_errors=True)
         _copytree(_default_test_batchlog_path, _test_batchlog_path)
+
+        self._test_log_locs = [
+            _join(_test_batchlog_path, "log1.txt"),
+            _join(_test_batchlog_path, "log2.txt"),
+            _join(_test_batchlog_path, "log3.txt"),
+            _join(_test_batchlog_path, "log4.txt")
+        ]
 
         for loc in self._test_log_locs:
             file = open(loc, "a+")
@@ -316,13 +318,7 @@ class TestFlushlogs(_BaseCase):
         """Initializes self with the given args."""
         super().__init__(methodName)
 
-        self._test_log_locs = [
-            _join(_test_batchlog_path, "log1.txt"),
-            _join(_test_batchlog_path, "log2.txt"),
-            _join(_test_batchlog_path, "log3.txt"),
-            _join(_test_batchlog_path, "log4.txt")
-        ]
-
+        self._test_log_locs = []
         self._test_logs: list[_IO] = []
 
     def setUp(self):
@@ -331,6 +327,13 @@ class TestFlushlogs(_BaseCase):
 
         _rmtree(_test_batchlog_path, ignore_errors=True)
         _copytree(_default_test_batchlog_path, _test_batchlog_path)
+
+        self._test_log_locs = [
+            _join(_test_batchlog_path, "log1.txt"),
+            _join(_test_batchlog_path, "log2.txt"),
+            _join(_test_batchlog_path, "log3.txt"),
+            _join(_test_batchlog_path, "log4.txt")
+        ]
 
         for loc in self._test_log_locs:
             file = open(loc, "a+")
