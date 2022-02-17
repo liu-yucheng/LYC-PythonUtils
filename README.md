@@ -7,7 +7,7 @@ Last updated by username: liu-yucheng
 
 # LYC-PythonUtils
 
-My personal Python utilities.
+Personal Python utility collection application.
 
 # Installation (Using `pip`)
 
@@ -236,28 +236,49 @@ Loads the data from a text file to a string and returns the string.
 Saves a string to a text file.
 
 # Miscellaneous
-## Versioning
+## Developer's Notes :memo: And Warnings :warning:
+### Notes :memo:
+
+This application is distributed under the **GNU GPL3 license**.
+
+A subsequent work of this application is a work that satisfies **any one** of the following:
+   - Is a variant of any form of this application.
+   - Contains a part, some parts, or all parts of this application.
+   - Integrates a part, some parts, or all parts of this application.
+
+All subsequent works of this application **must also be distributed under the GNU GPL3 license, and must also open their source codes to the public**.
+
+### Warnings :warning:
+
+Making a **closed-source** subsequent work (as defined above) of this application, and distribute it to the public is **unlawful**, no matter if such work makes a profit.
+
+Doing so may result in severe civil and criminal penalties.
+
+I reserve the rights, funds, time, and efforts to prosecute those who violate the license of this application to the maximum extent under applicable laws.
+
+## Versions
+### Versioning
 
 ```text
-The versioning of this app is based on Semantic Versioning.
+The versioning of this application is based on Semantic Versioning.
 You can see the complete Semantic Versioning specification from
   https://semver.org/.
-Basically, the version name of this app is in the form of:
+Basically, the version name of this application is in the form of:
   x.y.z
   Where x, y, and z are integers that are greater than or equal to 0.
   Where x, y, and z are separated by dots.
   x stands for the major version and indicates non-compatible major changes to
-    the app.
+    the application.
   y stands for the minor version and indicates forward compatible minor
-    changes to the app.
+    changes to the application.
   z stands for the patch version and indicates bug fixes and patches to the
-    app.
+    application.
 ```
 
-## Version Tags
+### Version Tags
 
 ```text
-The version tags of this repo has the form of a letter "v" followed by a
+The version tags of this repository has the form of a letter "v" followed by a
   semantic version.
 Given a semantic version:
   $x.$y.$z
@@ -280,7 +301,7 @@ You should have and keep a copy of the above license. If not, please get it
 ### Long Version
 
 ```text
-LYC-PythonUtils, LYC's personal Python utility collection.
+LYC-PythonUtils, LYC's personal Python utility collection application.
 Copyright (C) 2022 Yucheng Liu. GNU GPL3 license (GNU General Public License
   Version 3).
 
