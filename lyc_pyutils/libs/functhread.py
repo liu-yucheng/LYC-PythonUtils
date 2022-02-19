@@ -52,6 +52,7 @@ class FuncThread(_Thread):
             del self._target
             del self._args
             del self._kwargs
+        # end try
 
     def join(self, timeout=None):
         """Joins the thread.
