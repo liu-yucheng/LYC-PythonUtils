@@ -40,7 +40,6 @@ print(input_str)
         subproc_code = subproc_code.strip()
         subproc_code = subproc_code + "\n"
         self._subproc_code = subproc_code
-
         self._subproc = None
 
     async def _async_run_subproc(self):
