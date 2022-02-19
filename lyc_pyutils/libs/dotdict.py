@@ -30,8 +30,10 @@ class DotDict:
         """
         # print(f"fromdict____ dic: {dic}")  # Debug
         result = DotDict()
+
         for key in dic:
             result.setattr____(key, dic[key])
+
         return result
 
     @classmethod
@@ -66,26 +68,34 @@ class DotDict:
         # Set the inherited keys from the custom class level
         if selftype is not DotDict and issubclass(selftype, DotDict):
             classdict = type(self).__dict__
+
             for key in classdict:
                 key = str(key)
                 # print(f"__init__ classdict {key}: {classdict[key]}")  # Debug
+
                 if not type(self).isprotected____(key):
                     value = classdict[key]
                     self.setattr____(key, value)
+            # end for
+        # end if
 
         # Set keys with the key names from the variable arguments
         for arg in args:
             arg = str(arg)
             # print(f"__init__ *args arg {arg}")  # Debug
+
             if not selftype.isprotected____(key):
                 self.setattr____(arg, None)
+        # end for
 
         # Set keys with the key names and values from the keyword arguments
         for kw in kwargs:
             kw = str(kw)
             # print(f"__init__ **kwargs kw {kw}: {kwargs[kw]}")  # Debug
+
             if not selftype.isprotected____(key):
                 self.setattr____(kw, kwargs[kw])
+        # end for
 
     def __getattr__(self, name):
         return self.getattr____(name)
@@ -142,8 +152,10 @@ class DotDict:
         """
         if isinstance(value, dict):
             value = DotDict.fromdict____(value)
+
         if not type(self).isprotected____(name):
             self.__dict__[name] = value
+
         value = self.__dict__[name]
         return value
 
@@ -183,11 +195,14 @@ class DotDict:
             value: the value
         """
         selftype = type(self)
+
         if isinstance(value, DotDict):
             value = value.todict____()
+
         if not selftype.isprotected____(name):
             self.setattr____(name, value)
             setattr(selftype, name, value)
+
         value = selftype.__dict__[name]
         return value
 
@@ -198,10 +213,12 @@ class DotDict:
             result: the resulting string representation
         """
         result = ".{}"
+
         if len(self.__dict__) <= 0:
             return result
 
         result = ".{"
+
         for key in self.__dict__:
             result += f"{key.__str__()}: {self.__dict__[key].__str__()}, "
 
@@ -219,9 +236,14 @@ class DotDict:
             result: the result dict
         """
         result = {}
+
         for key in self.__dict__:
             value = self.__dict__[key]
+
             if isinstance(value, DotDict):
                 value = value.todict____()
+
             result[key] = value
+        # end for
+
         return result
