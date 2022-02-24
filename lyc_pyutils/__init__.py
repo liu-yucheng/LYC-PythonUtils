@@ -12,7 +12,7 @@ from lyc_pyutils.libs import jsonrw
 from lyc_pyutils.libs import randbool
 from lyc_pyutils.libs import textrw
 from lyc_pyutils.libs import timedinput
-
+from lyc_pyutils.libs import clamps
 
 DotDict = dotdict.DotDict
 
@@ -33,3 +33,6 @@ flushlogs = batchlog.flushlogs
 
 load_text = textrw.load_text
 save_text = textrw.save_text
+
+clamp_float = clamps.clamp_float
+clamp_int = clamps.clamp_int
