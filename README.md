@@ -235,6 +235,58 @@ Loads the data from a text file to a string and returns the string.
 
 Saves a string to a text file.
 
+## `clamp_float`
+
+- Full path: `lyc_pyutils.clamps.clamp_float`
+- Shortcut: `lyc_pyutils.clamp_float`
+
+Clamps a number to a range and returns a float.
+
+Python interactive shell demo use case:
+
+```python
+>>> import lyc_pyutils
+>>> lyc_pyutils.clamp_float(0.5, 0.0, 1.0)
+0.5
+>>> lyc_pyutils.clamp_float(1.5, 0.0, 1.0)
+1.0
+>>> lyc_pyutils.clamp_float(-0.5, 0.0, 1.0)
+0.0
+>>> lyc_pyutils.clamp_float(0.5, 1.0, 0.0)
+0.5
+>>> lyc_pyutils.clamp_float(1.5, 1.0, 0.0)
+1.0
+>>> lyc_pyutils.clamp_float(-0.5, 1.0, 0.0)
+0.0
+>>>
+```
+
+## `clamp_int`
+
+- Full path: `lyc_pyutils.clamps.clamp_int`
+- Shortcut: `lyc_pyutils.clamp_int`
+
+Clamps a number to a range and returns an integer.
+
+Python interactive shell demo use case:
+
+```python
+>>> import lyc_pyutils
+>>> lyc_pyutils.clamp_int(1, 0, 2)
+1
+>>> lyc_pyutils.clamp_int(3, 0, 2)
+2
+>>> lyc_pyutils.clamp_int(-1, 0, 2)
+0
+>>> lyc_pyutils.clamp_int(1, 2, 0)
+1
+>>> lyc_pyutils.clamp_int(3, 2, 0)
+2
+>>> lyc_pyutils.clamp_int(-1, 2, 0)
+0
+>>>
+```
+
 # Miscellaneous
 ## Developer's Notes :memo: And Warnings :warning:
 ### Notes :memo:
