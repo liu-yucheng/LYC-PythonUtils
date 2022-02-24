@@ -46,6 +46,7 @@ print(input_str)
         self._subproc = await _create_subprocess_exec(
             _executable, "-c", self._subproc_code, stdin=_stdin, stdout=_PIPE
         )
+
         data = await self._subproc.stdout.readline()
         self._input_str = data.decode("utf-8", "replace").rstrip()
         await self._subproc.wait()
