@@ -14,7 +14,7 @@ Personal Python utility collection application.
 - Go to the root directory of this repo.
 - The requirements.txt is empty. No dependency installations required.
 - Development installation: run the `pip install -e .` command.
-- Deployment installation: run the `pip install .` command.
+- ~~Deployment installation: run the `pip install .` command.~~ (Temporarily unavailable.)
 - You can now access the libraries by importing the `lyc_pyutils` package.
 
 # Using The Utilities
@@ -285,6 +285,30 @@ Python interactive shell demo use case:
 >>> lyc_pyutils.clamp_int(-1, 2, 0)
 0
 >>>
+```
+
+# Testing
+
+You can test this application by running `python <this-repo>/test_all.py`.
+
+# Python Code Style
+
+Follows [PEP8](https://peps.python.org/pep-0008/) with the exceptions shown in the following VSCode `settings.json` code fragment.
+
+```json
+{
+  ...,
+  "python.formatting.provider": "autopep8",
+  "python.formatting.autopep8Args": [
+    "--max-line-length=119"
+  ],
+  "python.linting.enabled": true,
+  "python.linting.pycodestyleEnabled": true,
+  "python.linting.pycodestyleArgs": [
+    "--max-line-length=119"
+  ],
+  ...
+}
 ```
 
 # Miscellaneous
