@@ -1,13 +1,14 @@
 <!---
-Copyright 2022 Yucheng Liu. GNU GPL3 license.
-GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+Copyright 2022 Yucheng Liu. GNU LGPL3 license.
+GNU LGPL3 license copy: https://www.gnu.org/licenses/lgpl-3.0.txt
+GNU LGPL3 is based on GNU GPL3, GNU GPL3 copy: https://www.gnu.org/licenses/gpl-3.0.txt
 First added by username: liu-yucheng
 Last updated by username: liu-yucheng
 --->
 
 # LYC-PythonUtils
 
-Personal Python utility collection application.
+Personal Python utility collection library.
 
 # Installation (Using `pip`)
 
@@ -289,7 +290,7 @@ Python interactive shell demo use case:
 
 # Testing
 
-You can test this application by running `python <this-repo>/test_all.py`.
+You can test this library by running `python <this-repo>/test_all.py`.
 
 # Python Code Style
 
@@ -311,44 +312,63 @@ Follows [PEP8](https://peps.python.org/pep-0008/) with the exceptions shown in t
 }
 ```
 
+# Change In License
+
+On 8 April 2022, LYC-PythonUtils (versions from `1.1.4` to present) changed its license from GNU GPL3 to GNU LGPL3.
+
+The license of all previous versions of LYC-PythonUtils (versions from `0.1.0` to `1.1.3`) remains unchanged.
+
+- LYC-PythonUtils (versions `>= 1.1.4`): GNU LGPL3
+- LYC-PythonUtils (`0.1.0 <=` versions `>= 1.1.3`): GNU GPL3
+
+The above changes take effect because they are agreed by 100%  (1/1, `>=` 100%) of the contributors (prior to 8 April 2022) to this repository.
+
 # Miscellaneous
-## Developer's Notes :memo: And Warnings :warning:
-### Notes :memo:
 
-This application is distributed under the **GNU GPL3 license**.
+## Developer's Notes 📝 And Warnings ⚠️
 
-A subsequent work of this application is a work that satisfies **any one** of the following:
-   - Is a variant of any form of this application.
-   - Contains a part, some parts, or all parts of this application.
-   - Integrates a part, some parts, or all parts of this application.
+### Notes 📝
 
-All subsequent works of this application **must also be distributed under the GNU GPL3 license, and must also open their source codes to the public**.
+This library is distributed under the **[GNU LGPL3 license](LICENSE).**
 
-### Warnings :warning:
+GNU LGPL3 is based on **[GNU GPL3](README-Assets/GNU-GPL3-License.txt).**
 
-Making a **closed-source** subsequent work (as defined above) of this application, and distribute it to the public is **unlawful**, no matter if such work makes a profit.
+A subsequent work of this library is a work that satisfies **any one** of the following:
+
+- Is a variant of any form of this library.
+- Contains a part, some parts, or all parts of this library.
+- Integrates a part, some parts, or all parts of this library.
+
+A library usage notice is a prominent notice saying that this library is used and that this library and its use are covered by the GNU LGPL3 license.
+
+All subsequent works of this library **must include a library usage notice** (as defined above).
+
+### Warnings ⚠️
+
+**Not including a library usage notice** (as defined above) in any subsequent work (as defined above) of this library, and distribute it to the public is **unlawful**, no matter if such work makes a profit.
 
 Doing so may result in severe civil and criminal penalties.
 
-I reserve the rights, funds, time, and efforts to prosecute those who violate the license of this application to the maximum extent under applicable laws.
+I reserve the rights, funds, time, and efforts to prosecute those who violate the license of this library to the maximum extent under applicable laws.
 
 ## Versions
+
 ### Versioning
 
 ```text
-The versioning of this application is based on Semantic Versioning.
+The versioning of this library is based on Semantic Versioning.
 You can see the complete Semantic Versioning specification from
   https://semver.org/.
-Basically, the version name of this application is in the form of:
+Basically, the version name of this library is in the form of:
   x.y.z
   Where x, y, and z are integers that are greater than or equal to 0.
   Where x, y, and z are separated by dots.
   x stands for the major version and indicates non-compatible major changes to
-    the application.
+    the library.
   y stands for the minor version and indicates forward compatible minor
-    changes to the application.
+    changes to the library.
   z stands for the patch version and indicates bug fixes and patches to the
-    application.
+    library.
 ```
 
 ### Version Tags
@@ -365,35 +385,45 @@ The version tags are on the main branch.
 ```
 
 ## Copyright
+
 ### Short Version
 
 ```text
-Copyright (C) 2022 Yucheng Liu. GNU GPL3 license (GNU General Public License
-  Version 3).
+Copyright (C) 2022 Yucheng Liu. GNU LGPL3 license (GNU Lesser General Public
+  License Version 3).
 You should have and keep a copy of the above license. If not, please get it
-  from https://www.gnu.org/licenses/gpl-3.0.txt.
+  from https://www.gnu.org/licenses/lgpl-3.0.txt.
+GNU LGPL3 is based on GNU GPL3, and you can find the GNU GPL3 copy at
+  https://www.gnu.org/licenses/gpl-3.0.txt
 ```
 
 ### Long Version
 
 ```text
-LYC-PythonUtils, LYC's personal Python utility collection application.
-Copyright (C) 2022 Yucheng Liu. GNU GPL3 license (GNU General Public License
-  Version 3).
+LYC-PythonUtils, LYC's personal Python utility library.
+Copyright (C) 2022 Yucheng Liu. GNU LGPL3 license (GNU Lesser General Public
+  License Version 3).
 
 This program is free software: you can redistribute it and/or modify it under
-  the terms of the GNU General Public License as published by the Free
+  the terms of the GNU Lesser General Public License as published by the Free
   Software Foundation, either version 3 of the License, or (at your option)
   any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT
   ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-  FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
-  more details.
+  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+  for more details.
 
-You should have received a copy of the GNU General Public License along with
-  this program. If not, see:
+You should have received a copy of the GNU Lesser General Public License along
+  with this program. If not, see:
   1. The LICENSE file in this repository.
-  2. https://www.gnu.org/licenses/.
+  2. https://www.gnu.org/licenses/#LGPL.
+  3. https://www.gnu.org/licenses/lgpl-3.0.txt.
+
+GNU Lesser General Public License Version 3 is based on the GNU General Public
+  License Version 3. You can find a copy of the GNU General Public License
+  Version 3 at:
+  1. The README-Assets/GNU-GPL3-License.txt file in this repository.
+  2. https://www.gnu.org/licenses/#GPL.
   3. https://www.gnu.org/licenses/gpl-3.0.txt.
 ```
