@@ -1,7 +1,8 @@
 """Text reading and writing."""
 
-# Copyright 2022 Yucheng Liu. GNU GPL3 license.
-# GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+# Copyright 2022 Yucheng Liu. GNU LGPL3 license.
+# GNU LGPL3 license copy: https://www.gnu.org/licenses/lgpl-3.0.txt
+# GNU LGPL3 is based on GNU GPL3, GNU GPL3 copy: https://www.gnu.org/licenses/gpl-3.0.txt
 # First added by username: liu-yucheng
 # Last updated by username: liu-yucheng
 
@@ -21,8 +22,9 @@ def load_text(from_file):
     """
 
     # Part of LYC-PythonUtils
-    # Copyright 2022 Yucheng Liu. GNU GPL3 license.
-    # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+    # Copyright 2022 Yucheng Liu. GNU LGPL3 license.
+    # GNU LGPL3 license copy: https://www.gnu.org/licenses/lgpl-3.0.txt
+    # GNU LGPL3 is based on GNU GPL3, GNU GPL3 copy: https://www.gnu.org/licenses/gpl-3.0.txt
 
     from_file = str(from_file)
 
@@ -44,8 +46,9 @@ def save_text(from_str, to_file):
     """
 
     # Part of LYC-PythonUtils
-    # Copyright 2022 Yucheng Liu. GNU GPL3 license.
-    # GNU GPL3 license copy: https://www.gnu.org/licenses/gpl-3.0.txt
+    # Copyright 2022 Yucheng Liu. GNU LGPL3 license.
+    # GNU LGPL3 license copy: https://www.gnu.org/licenses/lgpl-3.0.txt
+    # GNU LGPL3 is based on GNU GPL3, GNU GPL3 copy: https://www.gnu.org/licenses/gpl-3.0.txt
 
     from_str = str(from_str)
     to_file = str(to_file)
