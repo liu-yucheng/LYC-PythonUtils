@@ -22,9 +22,11 @@ _setup = setuptools.setup
 def main():
     _setup(
         name="lyc-pyutils",
-        version="1.1.4",
-        description="LYC's personal Python utilities.",
+        version="1.2.0",
         author="Yucheng Liu",
+        license="Copyright (C) 2022 Yucheng Liu. GNU LGPL3 license.",
+        description="LYC's personal Python utilities.",
+        # ----
         packages=_find_packages(),
         entry_points={
             "console_scripts": []
