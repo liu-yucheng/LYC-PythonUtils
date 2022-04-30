@@ -6,13 +6,40 @@
 # First added by username: liu-yucheng
 # Last updated by username: liu-yucheng
 
+from collections import abc
 
-class DotDict:
-    """Dot dictionary.
+# Aliases
 
-    A dictionary whose items can be accessed with the "dict.key" syntax.
-    Dot dictionary is recursively compatible with the Python standard library dict.
-    4 trailing underscores added to all public method names to avoid key or attribute naming confusions.
+_Iterable = abc.Iterable
+_Mapping = abc.Mapping
+
+# -
+
+
+class DotDict(dict):
+    """Dot dictionary (API version 2).
+
+    NOTE: Not API-compatible with the version 1 DoctDict.
+    A dictionary whose items can be accessed with the "dict.key" syntax, with some exceptions.
+    A dictionary whose items can also be accessed with the "dict[key]" syntax, similar to a Python built-in dict.
+    A child class of the Python built-in dict, with the type dict[str, typing.Any].
+    Recursively compatible with the Python built-in dict in nested structures.
+
+    "dict.key" syntax exception 1: If a key is included in the dir(dict()) attribute list, it is read-only and
+        evaluated to the respective dict attribute.
+
+    "dict.key" syntax exception 2: A key is protected -- read-only, and evaluated to the respective DotDict attribute,
+        if it is ...
+        ... private -- in the form of "_(.*)"; or
+        ... magic -- in the form of "__(.*)__"; or
+        ... has 4 trailing underscores -- in the form of "(.*)____".
+
+    However, the "dict[key]" syntax has no exceptions.
+
+    If a key is of the above "dict.key" exceptional forms, when accessed with the "dict[key]" syntax, there are no
+        restrictions similar to the above ones; the key will be ...
+        ... writable, as in a Python built-in dict; and
+        ... with no initial values, as in a Python built-in dict.
     """
 
     # Part of LYC-PythonUtils
@@ -20,12 +47,15 @@ class DotDict:
     # GNU LGPL3 license copy: https://www.gnu.org/licenses/lgpl-3.0.txt
     # GNU LGPL3 is based on GNU GPL3, GNU GPL3 copy: https://www.gnu.org/licenses/gpl-3.0.txt
 
+    dir_dict_excs____ = dir(dict())
+    """The dir(dict()) exceptional names."""
+
     @classmethod
-    def fromdict____(cls, dic):
-        """Builds and gives an DotDict from a Python standard library dict.
+    def from_dict____(cls, dict_):
+        """Builds and returns a DotDict from a Python built-in dict or Mapping.
 
         Args:
-            dic: the dictionary
+            dict_: a dict or Mapping
 
         Returns:
             result: the resulting DotDict
@@ -33,31 +63,117 @@ class DotDict:
         # print(f"fromdict____ dic: {dic}")  # Debug
         result = DotDict()
 
-        for key in dic:
-            result.setattr____(key, dic[key])
+        for key in dict_:
+            result.set_attr____(key, dict_[key])
 
         return result
 
     @classmethod
-    def isprotected____(cls, key):
-        """Finds if a key is protected.
+    def is_exc_key____(cls, key):
+        """Finds if a key is exceptional.
+
+        If a key is exceptional, when accessed with the "dict.key" syntax, it is read-only and evaluated to the
+            respective dict or DotDict attribute.
 
         Args:
-            key: the key
+            key: a key
 
         Returns:
-            result: the result
+            result: whether the key is exceptional
         """
-        # print(f"isprotected____ key: {key}")  # Debug
+        # print(f"is_exc____ key: {key}")  # Debug
         key = str(key)
-        result = key[:1] == "_"  # See whether the key is private
-        result = result or len(key) >= 4 and key[:2] == "__" and key[-2:] == "__"  # See whether the key is magic
-        result = result or key[-4:] == "____"  # See whether the key is DotDict reserved
+
+        # See whether the key is in the dir(dict()) attribute list
+        result = key in cls.dir_dict_excs____
+
+        # See whether the key is private; and ...
+        #   .. see whether the key is magic; and ...
+        #   .. see whether the key has 4 trailing underscores
+        result = result or \
+            key[:1] == "_" or \
+            (len(key) >= 4 and key[:2] == "__" and key[-2:] == "__") or \
+            key[-4:] == "____"
+
         return result
 
-    # Magic functions
+    def _mandatory_init(self, *args, **kwargs):
+        """Inits self with the given args and kwargs.
 
-    def __init__(self, *args, **kwargs):
+        This is a mandatory method to call in the initialization process.
+
+        Args:
+            *args: the variable arguments
+            **kwargs: the keyword arguments
+        """
+        self_type = type(self)
+
+        # Set the inherited keys from the custom class level
+        if self_type is not DotDict and issubclass(self_type, DotDict):
+            class_dict = self_type.__dict__
+
+            for key in class_dict:
+                key = str(key)
+                # print(f"_dot_dict_init class_dict {key}: {class_dict[key]}")  # Debug
+
+                if not self_type.is_exc_key____(key):
+                    val = class_dict[key]
+                    self.set_attr____(key, val)
+            # end for
+        # end if
+
+        # Set keys with the key names from the variable arguments
+        for arg in args:
+            arg = str(arg)
+            # print(f"_dot_dict_init *args arg: {arg}")  # Debug
+
+            if not self_type.is_exc_key____(key):
+                self.set_attr____(arg, None)
+        # end for
+
+        # Set pairs with the key names and values from the keyword arguments
+        for kw in kwargs:
+            kw = str(kw)
+            # print(f"_dot_dict_init **kwargs kw: {kw}  arg: {kwargs[kw]}")  # Debug
+
+            if not self_type.is_exc_key____(key):
+                arg = kwargs[kw]
+                self.set_attr____(kw, arg)
+        # end for
+
+    def _empty_init(self):
+        """Inits self."""
+        super().__init__()
+        self._mandatory_init()
+
+    def _map_init(self, map_):
+        """Inits self with a map.
+
+        Args:
+            map_: a map
+        """
+        super().__init__(map_)
+        self._mandatory_init()
+
+    def _iter_init(self, iter_):
+        """Inits self with an iterable.
+
+        Args:
+            iter_: an iterable
+        """
+        super().__init__(iter_)
+        self._mandatory_init()
+
+    def _kwargs_init(self, **kwargs):
+        """Inits self with the given keyword arguments.
+
+        Args:
+            **kwargs: the keyword arguments
+        """
+        super().__init__(**kwargs)
+        self._mandatory_init()
+
+    def _dot_dict_init(self, *args, **kwargs):
         """Inits self with the given args and kwargs.
 
         Args:
@@ -65,148 +181,478 @@ class DotDict:
             **kwargs: the keyword arguments
         """
         super().__init__()
-        selftype = type(self)
+        self._mandatory_init(*args, **kwargs)
 
-        # Set the inherited keys from the custom class level
-        if selftype is not DotDict and issubclass(selftype, DotDict):
-            classdict = type(self).__dict__
+    # Magic functions
 
-            for key in classdict:
-                key = str(key)
-                # print(f"__init__ classdict {key}: {classdict[key]}")  # Debug
+    def __init__(self, *args, **kwargs):
+        """Inits self with the given args and kwargs.
 
-                if not type(self).isprotected____(key):
-                    value = classdict[key]
-                    self.setattr____(key, value)
-            # end for
+        Compatible with the following dict initialization methods:
+            dict(); and
+            dict(mapping); and
+            dict(iterable); and
+            dict(**kwargs).
+
+        If the given args and kwargs does not fall into any of the above categories, this method will use the DotDict
+            custom initialization method to complete the initialization.
+
+        Args:
+            *args: the variable arguments
+            **kwargs: the keyword arguments
+        """
+        args_len = len(args)
+        kwargs_len = len(kwargs)
+
+        empty_args = args_len <= 0
+        empty_kwargs = kwargs_len <= 0
+
+        single_arg = args_len == 1 and empty_kwargs
+        only_kwargs = empty_args and kwargs_len > 0
+
+        if empty_args and empty_kwargs:
+            self._empty_init()
+        elif single_arg:
+            the_arg = args[0]
+
+            if isinstance(the_arg, _Mapping):
+                self._map_init(the_arg)
+            elif isinstance(the_arg, _Iterable):
+                self._iter_init(the_arg)
+            else:
+                self._mandatory_init(*args, **kwargs)
+            # end if
+        elif only_kwargs:
+            self._kwargs_init(**kwargs)
+        else:
+            self._dot_dict_init(*args, **kwargs)
         # end if
 
-        # Set keys with the key names from the variable arguments
-        for arg in args:
-            arg = str(arg)
-            # print(f"__init__ *args arg {arg}")  # Debug
-
-            if not selftype.isprotected____(key):
-                self.setattr____(arg, None)
-        # end for
-
-        # Set keys with the key names and values from the keyword arguments
-        for kw in kwargs:
-            kw = str(kw)
-            # print(f"__init__ **kwargs kw {kw}: {kwargs[kw]}")  # Debug
-
-            if not selftype.isprotected____(key):
-                self.setattr____(kw, kwargs[kw])
-        # end for
-
     def __getattr__(self, name):
-        return self.getattr____(name)
+        return self.get_attr____(name)
 
     def __setattr__(self, name, value):
-        return self.setattr____(name, value)
+        return self.set_attr____(name, value)
 
     def __str__(self):
         return self.str____()
 
-    def __len__(self):
-        return self.__dict__.__len__()
-
-    def __iter__(self):
-        return self.__dict__.__iter__()
-
     def __getstate__(self):
-        return self.todict____()
+        return self.to_dict____()
 
     def __setstate__(self):
-        return type(self).fromdict____(self.__dict__)
+        return type(self).from_dict____(self)
 
     # End of magic functions
+    # Attribute functions
 
-    def getattr____(self, name):
-        """Gets an attribute of self.
+    def get_attr____(self, name):
+        """Gets an attribute with the given name.
 
         Args:
-            name: the name of the attribute
+            name: an attribute name
 
         Returns:
-            value: the value of the attribute; or, a new DotDict object, if the attribute does not exist
+            val: the attribute value
 
         Raises:
-            AttributeError: if self does not have the attribute
+            AttributeError: if self and self.__dict__ both have no such an attribute
         """
-        if name not in self.__dict__:
-            raise AttributeError(f"self does not have the attribute: {name}")
+        name = str(name)
 
-        value = self.__dict__[name]
-        return value
+        self_dict = self.__dict__
+        name_in_self_dict = name in self_dict
+        name_in_self = name in self
 
-    def setattr____(self, name, value):
-        """Sets an attribute of self.
+        if name_in_self_dict:
+            val = self_dict[name]
+        elif name_in_self:
+            val = self[name]
+        else:
+            raise AttributeError(f"self and self.__dict__ both have no attribute called: {name}")
+        # end if
 
-        All python standard library dict values are converted to DotDict values recursively.
+        return val
+
+    def set_attr____(self, name, val):
+        """Sets an attribute with the given name to the given value.
+
+        If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
+
+        When setting the attribute values, all Python built-in dict values are converted to their corresponding DotDict
+            values recursively.
 
         Args:
-            name: the name of the attribute
-            value: the value of the attribute
+            name: an attribute name
+            val: an attribute value
 
         Returns:
-            value: the value of the attribute
+            val: The attribute value. None if:
+                the original value is None; or
+                the method trys to write a protected but unbounded attribute.
         """
-        if isinstance(value, dict):
-            value = DotDict.fromdict____(value)
+        name = str(name)
 
-        if not type(self).isprotected____(name):
-            self.__dict__[name] = value
+        self_type = type(self)
+        name_is_exc = self_type.is_exc_key____(name)
 
-        value = self.__dict__[name]
-        return value
+        self_dict = self.__dict__
+        name_in_self_dict = name in self_dict
 
-    def getclassattr____(self, name):
-        """Gets the value of the class attribute with a name.
+        if name_is_exc:
+            name_in_self = name in self
 
-        This will also set self.name to type(self).__dict__[name].
+            if name_in_self_dict:
+                val = self_dict[name]
+            elif name_in_self:
+                val = self[name]
+            else:
+                val = None
+            # end if
+        else:
+            if isinstance(val, dict):
+                val = DotDict.from_dict____(val)
+
+            self[name] = val
+
+            if name_in_self_dict:
+                self_dict[name] = val
+        # end if
+
+        return val
+
+    def del_attr____(self, name):
+        """Deletes an attribute with the given name.
+
+        If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
 
         Args:
-            name: the name
+            name: an attribute name
 
         Returns:
-            value: the value
+            val: The attribute value. None if:
+                the original value is None; or
+                the deletion is successful.
+
+        Raises:
+            AttributeError: if self and self.__dict__ both have no such an attribute
+        """
+        name = str(name)
+
+        self_type = type(self)
+        name_is_exc = self_type.is_exc_key____(name)
+
+        self_dict = self.__dict__
+        name_in_self_dict = name in self_dict
+        name_in_self = name in self
+
+        info = f"self and self.__dict__ both have no attribute called: {name}"
+
+        if name_is_exc:
+            if name_in_self_dict:
+                val = self_dict[name]
+            elif name_in_self:
+                val = self[name]
+            else:
+                raise AttributeError(info)
+            # end if
+        else:
+            if name_in_self:
+                del self[name]
+
+            if name_in_self_dict:
+                del self_dict[name]
+
+            if (not name_in_self) and (not name_in_self_dict):
+                raise AttributeError(info)
+
+            val = None
+        # end if
+
+        return val
+
+    def get_class_attr____(self, name):
+        """Gets a class-level (static) attribute with the given name.
+
+        This method also overwrites self.name with the value of type(self).name.
+
+        Args:
+            name: an attribute name
+
+        Returns:
+            val: the attribute value
 
         Raises:
             AttributeError: if type(self) does not have the attribute
         """
-        classdict = type(self).__dict__
+        name = str(name)
+        class_dict = type(self).__dict__
 
-        if name not in classdict:
-            raise AttributeError(f"type(self) does not have the attribute: {name}")
+        if name not in class_dict:
+            raise AttributeError(f"type(self).__dict__ has no attribute called: {name}")
 
-        value = classdict[name]
-        self.setattr____(name, value)
-        return value
+        val = class_dict[name]
+        self.set_attr____(name, val)
 
-    def setclassattr____(self, name, value):
-        """Sets the class attribute with a name to a value.
+        return val
 
-        This will first set self.name to value and then set type(self).__dict__[name] to value.
+    def set_class_attr____(self, name, val):
+        """Sets a class-level (static) attribute with the given name to the given value.
+
+        This method:
+            first sets self.name to the given value; and
+            then sets type(self).__dict__[name] to the given value.
+
+        If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
+
+        When setting the attribute values, all Python built-in dict values are converted to their corresponding DotDict
+            values recursively.
 
         Args:
-            name: the name
-            value: the value
+            name: an attribute name
+            val: an attribute value
 
         Returns:
-            value: the value
+            val: The attribute value. None if:
+                the original value is None; or
+                the method trys to write a protected but unbounded attribute.
         """
-        selftype = type(self)
+        name = str(name)
 
-        if isinstance(value, DotDict):
-            value = value.todict____()
+        self_type = type(self)
+        name_is_exc = self_type.is_exc_key____(name)
 
-        if not selftype.isprotected____(name):
-            self.setattr____(name, value)
-            setattr(selftype, name, value)
+        class_dict = self_type.__dict__
+        self_dict = self.__dict__
+        name_in_self_dict = name in self_dict
 
-        value = selftype.__dict__[name]
-        return value
+        if name_is_exc:
+            name_in_class_dict = name in class_dict
+            name_in_self = name in self
+
+            if name_in_class_dict:
+                val = class_dict[name]
+            elif name_in_self_dict:
+                val = self_dict[name]
+            elif name_in_self:
+                val = self[name]
+            else:
+                val = None
+            # end if
+        else:
+            if isinstance(val, dict):
+                val = DotDict.from_dict____(val)
+
+            self[name] = val
+
+            if name_in_self_dict:
+                self_dict[name] = val
+
+            class_dict[name] = val
+        # end if
+
+        return val
+
+    def del_class_attr____(self, name):
+        """Deletes a class-level (static) attribute with the given name.
+
+        This method:
+            first deletes self.name; and
+            then deletes type(self).__dict__[name].
+
+        If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
+
+        Args:
+            name: an attribute name
+
+        Returns:
+            val: The attribute value. None if:
+                the original value if None; or
+                the deletion is successful.
+
+        Raises:
+            AttributeError: if self, self.__dict__, and type(self).__dict__ all have no such an attribute
+        """
+        name = str(name)
+
+        self_type = type(self)
+        name_is_exc = self_type.is_exc_key____(name)
+
+        class_dict = self_type.__dict__
+        self_dict = self.__dict__
+        name_in_class_dict = name in class_dict
+        name_in_self_dict = name in self_dict
+        name_in_self = name in self
+
+        info = f"self, self.__dict__, and type(self).__dict__ all have no attribute called: {name}"
+
+        if name_is_exc:
+            if name_in_class_dict:
+                val = class_dict[name]
+            elif name_in_self_dict:
+                val = self_dict[name]
+            elif name_in_self:
+                val = self[name]
+            else:
+                raise AttributeError(info)
+            # end if
+        else:
+            if name_in_self:
+                del self[name]
+
+            if name_in_self_dict:
+                del self_dict[name]
+
+            if name_in_class_dict:
+                del class_dict[name]
+
+            if (not name_in_self) and (not name_in_self_dict) and (not name_in_class_dict):
+                raise AttributeError(info)
+
+            val = None
+        # end if
+
+        return val
+
+    # End of attribute functions
+    # Item functions
+
+    def get_item____(self, key):
+        """Gets an item with the given key.
+
+        Args:
+            key: an item key
+
+        Returns:
+            val: the item value
+
+        Raises:
+            KeyError: if self and self.__dict__ both have no such an item
+        """
+        key = str(key)
+
+        self_dict = self.__dict__
+        key_in_self = key in self
+        key_in_self_dict = key in self_dict
+
+        if key_in_self:
+            val = super().__getitem__(key)
+        elif key_in_self_dict:
+            val = self_dict[key]
+        else:
+            raise KeyError(f"self and self.__dict__ both have no item with the key: {key}")
+        # end if
+
+        return val
+
+    def set_item____(self, key, val):
+        """Sets an item with the given key to the given value.
+
+        When setting the item values, all Python built-in dict values are converted to their corresponding DotDict
+            values recursively.
+
+        Args:
+            key: an item key
+            val: an item value
+
+        Returns:
+            val: the item value
+        """
+        key = str(key)
+
+        self_type = type(self)
+        key_is_exc = self_type.is_exc_key____(key)
+
+        self_dict = self.__dict__
+        key_in_self_dict = key in self_dict
+
+        if isinstance(val, dict):
+            val = DotDict.from_dict____(val)
+
+        super().__setitem__(key, val)
+
+        if (not key_is_exc) and key_in_self_dict:
+            self_dict[key] = val
+
+        return val
+
+    def del_item____(self, key):
+        """Deletes an item with the given key.
+
+        Args:
+            key: an item key
+
+        Returns:
+            val: The item value. None if the deletion is successful.
+
+        Raises:
+            KeyError: if self and self.__dict__ both have no such an item
+        """
+        key = str(key)
+
+        self_type = type(self)
+        key_is_exc = self_type.is_exc_key____(key)
+
+        self_dict = self.__dict__
+        key_in_self_dict = key in self_dict
+        key_in_self = key in self
+
+        if key_in_self:
+            super().__delitem__(key)
+
+        if (not key_is_exc) and key_in_self_dict:
+            del self_dict[key]
+
+        if (not key_in_self) and (not key_in_self_dict):
+            raise KeyError(f"self and self.__dict__ both have no item with the key: {key}")
+
+        val = None
+        return val
+
+    def get_class_item____(self, key):
+        """Gets a class-level (static) item with the given key.
+
+        Alias of the get_class_attr____ method.
+
+        Args:
+            key: an item key
+
+        Returns:
+            val: the item value
+        """
+        val = self.get_class_attr____(key)
+        return val
+
+    def set_class_item____(self, key, val):
+        """Sets a class-level (static) item with the given key to the given value.
+
+        Alias of the set_class_attr____ method.
+
+        Args:
+            key: an item key
+            val: an item value
+
+        Returns:
+            val: the item value
+        """
+        val = self.set_class_attr____(key, val)
+        return val
+
+    def del_class_item____(self, key):
+        """Deletes a class-level (static) item with the given key.
+
+        Alias of the del_class_attr____ method.
+
+        Args:
+            key: an item key
+
+        Returns:
+            val: the item value
+        """
+        val = self.del_class_attr____(key)
+        return val
+
+    # End of item functions
 
     def str____(self):
         """Finds and gives a string representation of self.
@@ -214,38 +660,37 @@ class DotDict:
         Returns:
             result: the resulting string representation
         """
-        result = ".{}"
-
-        if len(self.__dict__) <= 0:
+        if len(self) <= 0:
+            result = ".{}"
             return result
 
         result = ".{"
 
-        for key in self.__dict__:
-            result += f"{key.__str__()}: {self.__dict__[key].__str__()}, "
+        for key in self:
+            result += f"{key.__str__()}: {self[key].__str__()}, "
 
         result = result[:-2]  # Remove the trailing comma and space
         result += "}"
 
         return result
 
-    def todict____(self):
-        """Finds and gives a Python standard library dict version of self.
+    def to_dict____(self):
+        """Finds and returns a Python built-in dict version of self.
 
-        All DotDict values are converted to Python standard library dict values recursively.
+        This method converts all DotDict values to their corresponding Python built-in dict values recursively.
 
         Returns:
             result: the result dict
         """
         result = {}
 
-        for key in self.__dict__:
-            value = self.__dict__[key]
+        for key in self:
+            val = self[key]
 
-            if isinstance(value, DotDict):
-                value = value.todict____()
+            if isinstance(val, DotDict):
+                val = val.to_dict____()
 
-            result[key] = value
+            result[key] = val
         # end for
 
         return result
