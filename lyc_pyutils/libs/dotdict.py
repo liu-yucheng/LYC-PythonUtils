@@ -228,11 +228,23 @@ class DotDict(dict):
             self._dot_dict_init(*args, **kwargs)
         # end if
 
+    def __getitem__(self, key):
+        return self.get_item____(key)
+
+    def __setitem__(self, key, val):
+        return self.set_item____(key, val)
+
+    def __delitem__(self, key):
+        return self.del_item____(key)
+
     def __getattr__(self, name):
         return self.get_attr____(name)
 
     def __setattr__(self, name, value):
         return self.set_attr____(name, value)
+
+    def __delattr__(self, name):
+        return self.del_attr____(name)
 
     def __str__(self):
         return self.str____()
