@@ -42,7 +42,8 @@ class DotDict(dict):
     If a key is of the above "dict.key" exceptional forms, when accessed with the "dict[key]" syntax, there are no
         restrictions similar to the above ones; the key will be ...
         ... writable, as in a Python built-in dict; and,
-        ... with no initial values, as in a Python built-in dict.
+        ... with the "dict.key" initial values if "dict.key" exists; and,
+        ... with no initial value if "dict.key" does not exist.
     """
 
     # Part of LYC-PythonUtils
@@ -300,6 +301,16 @@ class DotDict(dict):
         """
         return self.del_attr____(name)
 
+    def __repr__(self):
+        """Finds the Python representation of self.
+
+        This makes eval(repr(self)) == self.
+
+        Returns:
+            _: self's Python representation
+        """
+        return self.repr____()
+
     def __str__(self):
         """Finds the string representation of self.
 
@@ -337,20 +348,20 @@ class DotDict(dict):
             val: the attribute value
 
         Raises:
-            AttributeError: if self and self.__dict__ both have no such an attribute
+            AttributeError: if self and self.__dir__() both have no such an attribute
         """
         name = str(name)
 
-        self_dict = self.__dict__
-        name_in_self_dict = name in self_dict
+        self_dir = self.__dir__()
+        name_in_self_dir = name in self_dir
         name_in_self = name in self
 
-        if name_in_self_dict:
-            val = self_dict[name]
+        if name_in_self_dir:
+            val = super().__getattribute__(name)
         elif name_in_self:
-            val = self[name]
+            val = super().__getitem__(name)
         else:
-            raise AttributeError(f"self and self.__dict__ both have no attribute called: {name}")
+            raise AttributeError(f"self and self.__dir__() both have no attribute called: {name}")
         # end if
 
         return val
@@ -377,26 +388,26 @@ class DotDict(dict):
         self_type = type(self)
         name_is_exc = self_type.is_exc_key____(name)
 
-        self_dict = self.__dict__
-        name_in_self_dict = name in self_dict
+        self_dir = self.__dir__()
+        name_in_self_dir = name in self_dir
         name_in_self = name in self
 
         if name_is_exc:
-            if name_in_self_dict:
-                val = self_dict[name]
+            if name_in_self_dir:
+                val = super().__getattribute__(name)
             elif name_in_self:
-                val = self[name]
+                val = super().__getitem__(name)
             else:
                 val = None
             # end if
         else:
-            if isinstance(val, dict):
+            if (not isinstance(val, DotDict)) and isinstance(val, dict):
                 val = DotDict.from_dict____(val)
 
-            if name_in_self_dict:
-                self_dict[name] = val
+            if name_in_self_dir:
+                super().__setattr__(name, val)
 
-            self[name] = val
+            super().__setitem__(name, val)
         # end if
 
         return val
@@ -415,35 +426,35 @@ class DotDict(dict):
                 the deletion is successful.
 
         Raises:
-            AttributeError: if self and self.__dict__ both have no such an attribute
+            AttributeError: if self and self.__dir__() both have no such an attribute
         """
         name = str(name)
 
         self_type = type(self)
         name_is_exc = self_type.is_exc_key____(name)
 
-        self_dict = self.__dict__
-        name_in_self_dict = name in self_dict
+        self_dir = self.__dir__()
+        name_in_self_dir = name in self_dir
         name_in_self = name in self
 
-        info = f"self and self.__dict__ both have no attribute called: {name}"
+        info = f"self and self.__dir__() both have no attribute called: {name}"
 
         if name_is_exc:
-            if name_in_self_dict:
-                val = self_dict[name]
+            if name_in_self_dir:
+                val = super().__getattribute__(name)
             elif name_in_self:
-                val = self[name]
+                val = super().__getitem__(name)
             else:
                 raise AttributeError(info)
             # end if
         else:
+            if name_in_self_dir:
+                super().__delattr__(name)
+
             if name_in_self:
-                del self[name]
+                super().__delitem__(name)
 
-            if name_in_self_dict:
-                del self_dict[name]
-
-            if (not name_in_self) and (not name_in_self_dict):
+            if (not name_in_self_dir) and (not name_in_self):
                 raise AttributeError(info)
 
             val = None
@@ -463,15 +474,17 @@ class DotDict(dict):
             val: the attribute value
 
         Raises:
-            AttributeError: if type(self) does not have the attribute
+            AttributeError: if type(self).__dir__() does not have the attribute
         """
         name = str(name)
-        class_dict = type(self).__dict__
 
-        if name not in class_dict:
-            raise AttributeError(f"type(self).__dict__ has no attribute called: {name}")
+        self_type = type(self)
+        class_dir = dir(self_type)
 
-        val = class_dict[name]
+        if name not in class_dir:
+            raise AttributeError(f"type(self).__dir__() has no attribute called: {name}")
+
+        val = getattr(self_type, name)
         self.set_attr____(name, val)
 
         return val
@@ -481,7 +494,7 @@ class DotDict(dict):
 
         This method:
             sets self.name to the given value; and,
-            sets type(self).__dict__[name] to the given value.
+            sets type(self).name to the given value.
 
         If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
 
@@ -502,25 +515,25 @@ class DotDict(dict):
         self_type = type(self)
         name_is_exc = self_type.is_exc_key____(name)
 
-        class_dict = self_type.__dict__
-        self_dict = self.__dict__
-        name_in_class_dict = name in class_dict
-        name_in_self_dict = name in self_dict
+        class_dir = dir(self_type)
+        self_dir = self.__dir__()
+        name_in_class_dir = name in class_dir
+        name_in_self_dir = name in self_dir
         name_in_self = name in self
 
         if name_is_exc:
-            if name_in_class_dict:
-                val = class_dict[name]
-            elif name_in_self_dict or name_in_self:
+            if name_in_class_dir:
+                val = getattr(self_type, name)
+            elif name_in_self_dir or name_in_self:
                 val = self.get_attr____(name)
             else:
                 val = None
             # end if
         else:
-            if isinstance(val, dict):
+            if (not isinstance(val, DotDict)) and isinstance(val, dict):
                 val = DotDict.from_dict____(val)
 
-            class_dict[name] = val
+            setattr(self_type, name, val)
             self.set_attr____(name, val)
         # end if
 
@@ -531,7 +544,7 @@ class DotDict(dict):
 
         This method:
             deletes self.name; and,
-            deletes type(self).__dict__[name].
+            deletes type(self).name.
 
         If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
 
@@ -544,36 +557,36 @@ class DotDict(dict):
                 the deletion is successful.
 
         Raises:
-            AttributeError: if self, self.__dict__, and type(self).__dict__ all have no such an attribute
+            AttributeError: if self, self.__dir__(), and type(self).__dir__() all have no such an attribute
         """
         name = str(name)
 
         self_type = type(self)
         name_is_exc = self_type.is_exc_key____(name)
 
-        class_dict = self_type.__dict__
-        self_dict = self.__dict__
-        name_in_class_dict = name in class_dict
-        name_in_self_dict = name in self_dict
+        class_dir = dir(self_type)
+        self_dir = self.__dir__()
+        name_in_class_dir = name in class_dir
+        name_in_self_dir = name in self_dir
         name_in_self = name in self
 
-        info = f"self, self.__dict__, and type(self).__dict__ all have no attribute called: {name}"
+        info = f"self, self.__dir__(), and type(self).__dir__() all have no attribute called: {name}"
 
         if name_is_exc:
-            if name_in_class_dict:
-                val = class_dict[name]
-            elif name_in_self_dict or name_in_self:
+            if name_in_class_dir:
+                val = getattr(self_type, name)
+            elif name_in_self_dir or name_in_self:
                 val = self.get_attr____(name)
             else:
                 raise AttributeError(info)
             # end if
         else:
-            if name_in_class_dict:
-                del class_dict[name]
+            if name_in_class_dir:
+                delattr(self_type, name)
 
             self.del_attr____(name)
 
-            if (not name_in_self) and (not name_in_self_dict) and (not name_in_class_dict):
+            if (not name_in_self) and (not name_in_self_dir) and (not name_in_class_dir):
                 raise AttributeError(info)
 
             val = None
@@ -594,20 +607,20 @@ class DotDict(dict):
             val: the item value
 
         Raises:
-            KeyError: if self and self.__dict__ both have no such an item
+            KeyError: if self and self.__dir__() both have no such an item
         """
         key = str(key)
 
-        self_dict = self.__dict__
+        self_dir = self.__dir__()
         key_in_self = key in self
-        key_in_self_dict = key in self_dict
+        key_in_self_dir = key in self_dir
 
         if key_in_self:
             val = super().__getitem__(key)
-        elif key_in_self_dict:
-            val = self_dict[key]
+        elif key_in_self_dir:
+            val = super().__getattribute__(key)
         else:
-            raise KeyError(f"self and self.__dict__ both have no item with the key: {key}")
+            raise KeyError(f"self and self.__dir__() both have no item with the key: {key}")
         # end if
 
         return val
@@ -630,16 +643,16 @@ class DotDict(dict):
         self_type = type(self)
         key_is_exc = self_type.is_exc_key____(key)
 
-        self_dict = self.__dict__
-        key_in_self_dict = key in self_dict
+        self_dir = self.__dir__()
+        key_in_self_dir = key in self_dir
 
-        if isinstance(val, dict):
+        if (not isinstance(val, DotDict)) and isinstance(val, dict):
             val = DotDict.from_dict____(val)
 
         super().__setitem__(key, val)
 
-        if (not key_is_exc) and key_in_self_dict:
-            self_dict[key] = val
+        if (not key_is_exc) and key_in_self_dir:
+            super().__setattr__(key, val)
 
         return val
 
@@ -653,25 +666,25 @@ class DotDict(dict):
             val: The item value. None if the deletion is successful.
 
         Raises:
-            KeyError: if self and self.__dict__ both have no such an item
+            KeyError: if self and self.__dir__() both have no such an item
         """
         key = str(key)
 
         self_type = type(self)
         key_is_exc = self_type.is_exc_key____(key)
 
-        self_dict = self.__dict__
+        self_dir = self.__dir__()
         key_in_self = key in self
-        key_in_self_dict = key in self_dict
+        key_in_self_dir = key in self_dir
 
         if key_in_self:
             super().__delitem__(key)
 
-        if (not key_is_exc) and key_in_self_dict:
-            del self_dict[key]
+        if (not key_is_exc) and key_in_self_dir:
+            super().__delattr__(key)
 
-        if (not key_in_self) and (not key_in_self_dict):
-            raise KeyError(f"self and self.__dict__ both have no item with the key: {key}")
+        if (not key_in_self) and (not key_in_self_dir):
+            raise KeyError(f"self and self.__dir__() both have no item with the key: {key}")
 
         val = None
         return val
@@ -718,8 +731,20 @@ class DotDict(dict):
 
     # End of item functions
 
+    def repr____(self):
+        """Finds a Python representation of self.
+
+        This makes eval(repr(self)) == self.
+
+        Returns:
+            result: the resulting Python representation
+        """
+        super_repr = super().__repr__()
+        result = f"DotDict(**{super_repr})"
+        return result
+
     def str____(self):
-        """Finds and gives a string representation of self.
+        """Finds a string representation of self.
 
         Returns:
             result: the resulting string representation
@@ -739,7 +764,7 @@ class DotDict(dict):
         return result
 
     def to_dict____(self):
-        """Finds and returns a Python built-in dict version of self.
+        """Finds a Python built-in dict version of self.
 
         This method converts all DotDict values to their corresponding Python built-in dict values recursively.
 
