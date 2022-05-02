@@ -17,11 +17,14 @@ _Mapping = abc.Mapping
 
 
 class DotDict(dict):
-    """Dot dictionary (API version 2).
+    """Dot dictionary, API version 2.
 
-    NOTE: Not API-compatible with the version 1 DoctDict.
-    A dictionary whose items can be accessed with the "dict.key" syntax, with some exceptions.
-    A dictionary whose items can also be accessed with the "dict[key]" syntax, similar to a Python built-in dict.
+    NOTE: Not API-compatible with the version 1 DotDict.
+
+    A dictionary whose items can ...
+        ... be accessed with the "dict.key" syntax, with some exceptions; and,
+        ... be accessed with the "dict[key]" syntax, similar to the items in a Python built-in dict.
+
     A child class of the Python built-in dict, with the type dict[str, typing.Any].
     Recursively compatible with the Python built-in dict in nested structures.
 
@@ -30,15 +33,15 @@ class DotDict(dict):
 
     "dict.key" syntax exception 2: A key is protected -- read-only, and evaluated to the respective DotDict attribute,
         if it is ...
-        ... private -- in the form of "_(.*)"; or
-        ... magic -- in the form of "__(.*)__"; or
+        ... private -- in the form of "_(.*)"; or,
+        ... magic -- in the form of "__(.*)__"; or,
         ... has 4 trailing underscores -- in the form of "(.*)____".
 
-    However, the "dict[key]" syntax has no exceptions.
+    However, the "dict[key]" syntax has no such exceptions.
 
     If a key is of the above "dict.key" exceptional forms, when accessed with the "dict[key]" syntax, there are no
         restrictions similar to the above ones; the key will be ...
-        ... writable, as in a Python built-in dict; and
+        ... writable, as in a Python built-in dict; and,
         ... with no initial values, as in a Python built-in dict.
     """
 
@@ -87,9 +90,10 @@ class DotDict(dict):
         # See whether the key is in the dir(dict()) attribute list
         result = key in cls.dir_dict_excs____
 
-        # See whether the key is private; and ...
-        #   .. see whether the key is magic; and ...
-        #   .. see whether the key has 4 trailing underscores
+        # See whether the key ...
+        #   ... is private; or,
+        #   ... is magic; or,
+        #   ... has 4 trailing underscores
         result = result or \
             key[:1] == "_" or \
             (len(key) >= 4 and key[:2] == "__" and key[-2:] == "__") or \
@@ -97,7 +101,7 @@ class DotDict(dict):
 
         return result
 
-    def _mandatory_init(self, *args, **kwargs):
+    def _mand_init(self, *args, **kwargs):
         """Inits self with the given args and kwargs.
 
         This is a mandatory method to call in the initialization process.
@@ -144,7 +148,7 @@ class DotDict(dict):
     def _empty_init(self):
         """Inits self."""
         super().__init__()
-        self._mandatory_init()
+        self._mand_init()
 
     def _map_init(self, map_):
         """Inits self with a map.
@@ -153,7 +157,7 @@ class DotDict(dict):
             map_: a map
         """
         super().__init__(map_)
-        self._mandatory_init()
+        self._mand_init()
 
     def _iter_init(self, iter_):
         """Inits self with an iterable.
@@ -162,7 +166,7 @@ class DotDict(dict):
             iter_: an iterable
         """
         super().__init__(iter_)
-        self._mandatory_init()
+        self._mand_init()
 
     def _kwargs_init(self, **kwargs):
         """Inits self with the given keyword arguments.
@@ -171,7 +175,7 @@ class DotDict(dict):
             **kwargs: the keyword arguments
         """
         super().__init__(**kwargs)
-        self._mandatory_init()
+        self._mand_init()
 
     def _dot_dict_init(self, *args, **kwargs):
         """Inits self with the given args and kwargs.
@@ -181,7 +185,7 @@ class DotDict(dict):
             **kwargs: the keyword arguments
         """
         super().__init__()
-        self._mandatory_init(*args, **kwargs)
+        self._mand_init(*args, **kwargs)
 
     # Magic functions
 
@@ -189,13 +193,13 @@ class DotDict(dict):
         """Inits self with the given args and kwargs.
 
         Compatible with the following dict initialization methods:
-            dict(); and
-            dict(mapping); and
-            dict(iterable); and
+            dict(); and,
+            dict(mapping); and,
+            dict(iterable); and,
             dict(**kwargs).
 
-        If the given args and kwargs does not fall into any of the above categories, this method will use the DotDict
-            custom initialization method to complete the initialization.
+        If the given args and kwargs do not fall into the above categories, this method will use the DotDict
+            initialization method to complete the initialization.
 
         Args:
             *args: the variable arguments
@@ -220,7 +224,7 @@ class DotDict(dict):
             elif isinstance(the_arg, _Iterable):
                 self._iter_init(the_arg)
             else:
-                self._mandatory_init(*args, **kwargs)
+                self._dot_dict_init(*args, **kwargs)
             # end if
         elif only_kwargs:
             self._kwargs_init(**kwargs)
@@ -229,31 +233,96 @@ class DotDict(dict):
         # end if
 
     def __getitem__(self, key):
+        """Gets an item with the given key.
+
+        Args:
+            key: an item key
+
+        Returns:
+            _: the item value
+        """
         return self.get_item____(key)
 
     def __setitem__(self, key, val):
+        """Sets an item with the given key to the given value.
+
+        Args:
+            key: an item key
+            val: an item value
+
+        Returns:
+            _: the item value after the setting
+        """
         return self.set_item____(key, val)
 
     def __delitem__(self, key):
+        """Deletes an item with the given key.
+
+        Args:
+            key: an item key
+
+        Returns:
+            _: the item value after the deletion
+        """
         return self.del_item____(key)
 
     def __getattr__(self, name):
+        """Gets an attribute with the given name.
+
+        Args:
+            name: an attribute name
+
+        Returns:
+            _: the attribute value
+        """
         return self.get_attr____(name)
 
-    def __setattr__(self, name, value):
-        return self.set_attr____(name, value)
+    def __setattr__(self, name, val):
+        """Sets an attribute with the given name to the given value.
+
+        Args:
+            name: an attribute name
+            val: an attribute value
+
+        Returns:
+            _: the attribute value after the setting
+        """
+        return self.set_attr____(name, val)
 
     def __delattr__(self, name):
+        """Deletes an attribute with the given name.
+
+        Args:
+            name: an attribute name
+
+        Returns:
+            _: the attribute value after deletion
+        """
         return self.del_attr____(name)
 
     def __str__(self):
+        """Finds the string representation of self.
+
+        Returns:
+            _: self's string representation
+        """
         return self.str____()
 
     def __getstate__(self):
+        """Finds the serializable form of self.
+
+        Returns:
+            _: self's serialization
+        """
         return self.to_dict____()
 
-    def __setstate__(self):
-        return type(self).from_dict____(self)
+    def __setstate__(self, state):
+        """Sets self's internal to the given state.
+
+        Args:
+            state: a serialization of self's certain state
+        """
+        self.__init__(**state)
 
     # End of magic functions
     # Attribute functions
@@ -300,7 +369,7 @@ class DotDict(dict):
 
         Returns:
             val: The attribute value. None if:
-                the original value is None; or
+                the original value is None; or,
                 the method trys to write a protected but unbounded attribute.
         """
         name = str(name)
@@ -310,10 +379,9 @@ class DotDict(dict):
 
         self_dict = self.__dict__
         name_in_self_dict = name in self_dict
+        name_in_self = name in self
 
         if name_is_exc:
-            name_in_self = name in self
-
             if name_in_self_dict:
                 val = self_dict[name]
             elif name_in_self:
@@ -325,10 +393,10 @@ class DotDict(dict):
             if isinstance(val, dict):
                 val = DotDict.from_dict____(val)
 
-            self[name] = val
-
             if name_in_self_dict:
                 self_dict[name] = val
+
+            self[name] = val
         # end if
 
         return val
@@ -343,7 +411,7 @@ class DotDict(dict):
 
         Returns:
             val: The attribute value. None if:
-                the original value is None; or
+                the original value is None; or,
                 the deletion is successful.
 
         Raises:
@@ -412,8 +480,8 @@ class DotDict(dict):
         """Sets a class-level (static) attribute with the given name to the given value.
 
         This method:
-            first sets self.name to the given value; and
-            then sets type(self).__dict__[name] to the given value.
+            sets self.name to the given value; and,
+            sets type(self).__dict__[name] to the given value.
 
         If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
 
@@ -426,7 +494,7 @@ class DotDict(dict):
 
         Returns:
             val: The attribute value. None if:
-                the original value is None; or
+                the original value is None; or,
                 the method trys to write a protected but unbounded attribute.
         """
         name = str(name)
@@ -436,18 +504,15 @@ class DotDict(dict):
 
         class_dict = self_type.__dict__
         self_dict = self.__dict__
+        name_in_class_dict = name in class_dict
         name_in_self_dict = name in self_dict
+        name_in_self = name in self
 
         if name_is_exc:
-            name_in_class_dict = name in class_dict
-            name_in_self = name in self
-
             if name_in_class_dict:
                 val = class_dict[name]
-            elif name_in_self_dict:
-                val = self_dict[name]
-            elif name_in_self:
-                val = self[name]
+            elif name_in_self_dict or name_in_self:
+                val = self.get_attr____(name)
             else:
                 val = None
             # end if
@@ -455,12 +520,8 @@ class DotDict(dict):
             if isinstance(val, dict):
                 val = DotDict.from_dict____(val)
 
-            self[name] = val
-
-            if name_in_self_dict:
-                self_dict[name] = val
-
             class_dict[name] = val
+            self.set_attr____(name, val)
         # end if
 
         return val
@@ -469,8 +530,8 @@ class DotDict(dict):
         """Deletes a class-level (static) attribute with the given name.
 
         This method:
-            first deletes self.name; and
-            then deletes type(self).__dict__[name].
+            deletes self.name; and,
+            deletes type(self).__dict__[name].
 
         If the name is an exceptional key name, this method protects the corresponding attribute from the changes.
 
@@ -479,7 +540,7 @@ class DotDict(dict):
 
         Returns:
             val: The attribute value. None if:
-                the original value if None; or
+                the original value if None; or,
                 the deletion is successful.
 
         Raises:
@@ -501,22 +562,16 @@ class DotDict(dict):
         if name_is_exc:
             if name_in_class_dict:
                 val = class_dict[name]
-            elif name_in_self_dict:
-                val = self_dict[name]
-            elif name_in_self:
-                val = self[name]
+            elif name_in_self_dict or name_in_self:
+                val = self.get_attr____(name)
             else:
                 raise AttributeError(info)
             # end if
         else:
-            if name_in_self:
-                del self[name]
-
-            if name_in_self_dict:
-                del self_dict[name]
-
             if name_in_class_dict:
                 del class_dict[name]
+
+            self.del_attr____(name)
 
             if (not name_in_self) and (not name_in_self_dict) and (not name_in_class_dict):
                 raise AttributeError(info)
@@ -606,8 +661,8 @@ class DotDict(dict):
         key_is_exc = self_type.is_exc_key____(key)
 
         self_dict = self.__dict__
-        key_in_self_dict = key in self_dict
         key_in_self = key in self
+        key_in_self_dict = key in self_dict
 
         if key_in_self:
             super().__delitem__(key)
@@ -630,10 +685,9 @@ class DotDict(dict):
             key: an item key
 
         Returns:
-            val: the item value
+            _: the item value
         """
-        val = self.get_class_attr____(key)
-        return val
+        return self.get_class_attr____(key)
 
     def set_class_item____(self, key, val):
         """Sets a class-level (static) item with the given key to the given value.
@@ -645,10 +699,9 @@ class DotDict(dict):
             val: an item value
 
         Returns:
-            val: the item value
+            _: the item value
         """
-        val = self.set_class_attr____(key, val)
-        return val
+        return self.set_class_attr____(key, val)
 
     def del_class_item____(self, key):
         """Deletes a class-level (static) item with the given key.
@@ -659,10 +712,9 @@ class DotDict(dict):
             key: an item key
 
         Returns:
-            val: the item value
+            _: the item value
         """
-        val = self.del_class_attr____(key)
-        return val
+        return self.del_class_attr____(key)
 
     # End of item functions
 
