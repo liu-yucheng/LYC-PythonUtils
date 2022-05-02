@@ -25,7 +25,9 @@ Personal Python utility collection library.
 - Full path: `lyc_pyutils.libs.dotdict.DotDict`
 - Shortcut: `lyc_pyutils.DotDict`
 
-Dot dictionary.
+Dot dictionary, API version 2.
+
+**Not API-compatible with the API version 1 dot dictionary.**
 
 Python interactive shell demo use case:
 
@@ -52,7 +54,7 @@ Hello
 >>> print(sample.attr5.hello)
 World
 >>>
->>> sample2 = sample.todict____()
+>>> sample2 = sample.to_dict____()
 >>> print(sample2)
 {'attr1': 1, 'attr2': 1.1, 'attr3': True, 'attr4': 'Hello', 'attr5': {'hello': 'World'}}
 >>>
