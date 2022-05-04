@@ -15,25 +15,33 @@ from lyc_pyutils.libs import textrw
 from lyc_pyutils.libs import timedinput
 from lyc_pyutils.libs import clamps
 
+dotdict = dotdict
 DotDict = dotdict.DotDict
 
+timedinput = timedinput
 TimedInput = timedinput.TimedInput
 
+functhread = functhread
 FuncThread = functhread.FuncThread
 
+randbool = randbool
 rand_bool = randbool.rand_bool
 
+jsonrw = jsonrw
 load_json = jsonrw.load_json
 save_json = jsonrw.save_json
 load_json_str = jsonrw.load_json_str
 save_json_str = jsonrw.save_json_str
 
+batchlog = batchlog
 logstr = batchlog.logstr
 logln = batchlog.logln
 flushlogs = batchlog.flushlogs
 
+textrw = textrw
 load_text = textrw.load_text
 save_text = textrw.save_text
 
+clamps = clamps
 clamp_float = clamps.clamp_float
 clamp_int = clamps.clamp_int
