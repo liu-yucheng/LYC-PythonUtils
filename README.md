@@ -36,6 +36,8 @@ Python interactive shell demo use case:
 >>> DotDict = dotdict.DotDict
 >>>
 >>> sample = DotDict()
+>>> sample
+DotDict(**{})
 >>> print(sample)
 .{}
 >>>
@@ -43,20 +45,27 @@ Python interactive shell demo use case:
 >>> sample.attr2 = 1.1
 >>> sample.attr3 = True
 >>> sample.attr4 = "Hello"
->>> print(sample)
-.{attr1: 1, attr2: 1.1, attr3: True, attr4: Hello}
->>> print(sample.attr4)
-Hello
->>>
 >>> sample.attr5 = {"hello": "World"}
+>>> sample
+DotDict(**{'attr1': 1, 'attr2': 1.1, 'attr3': True, 'attr4': 'Hello', 'attr5': DotDict(**{'hello': 'World'})})
 >>> print(sample)
-.{attr1: 1, attr2: 1.1, attr3: True, attr4: Hello, attr5: .{hello: World}}
+.{attr1: 1, attr2: 1.1, attr3: True, attr4: 'Hello', attr5: .{hello: 'World'}}
 >>> print(sample.attr5.hello)
 World
 >>>
 >>> sample2 = sample.to_dict____()
 >>> print(sample2)
 {'attr1': 1, 'attr2': 1.1, 'attr3': True, 'attr4': 'Hello', 'attr5': {'hello': 'World'}}
+>>>
+>>> sample3 = eval(repr(sample))
+>>> sample3
+DotDict(**{'attr1': 1, 'attr2': 1.1, 'attr3': True, 'attr4': 'Hello', 'attr5': DotDict(**{'hello': 'World'})})
+>>> print(sample3)
+.{attr1: 1, attr2: 1.1, attr3: True, attr4: 'Hello', attr5: .{hello: 'World'}}
+>>> print(sample3 == sample)
+True
+>>> len(sample3)
+5
 >>>
 ```
 
