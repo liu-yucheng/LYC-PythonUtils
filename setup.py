@@ -22,7 +22,7 @@ _setup = setuptools.setup
 def main():
     _setup(
         name="lyc-pyutils",
-        version="2.0.2",
+        version="2.0.3",
         author="Yucheng Liu",
         license="Copyright (C) 2022 Yucheng Liu. GNU LGPL3 license.",
         description="LYC's personal Python utilities.",
