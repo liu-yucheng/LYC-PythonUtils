@@ -7,7 +7,7 @@ The "entry_points" parameter of the setup function specifies the function to cal
     corresponding command via the command line.
 """
 
-# Copyright 2022 Yucheng Liu. GNU LGPL3 license.
+# Copyright 2022-2023 Yucheng Liu. GNU LGPL3 license.
 # GNU LGPL3 license copy: https://www.gnu.org/licenses/lgpl-3.0.txt
 # GNU LGPL3 is based on GNU GPL3, GNU GPL3 copy: https://www.gnu.org/licenses/gpl-3.0.txt
 # First added by username: liu-yucheng
@@ -22,9 +22,9 @@ _setup = setuptools.setup
 def main():
     _setup(
         name="lyc-pyutils",
-        version="2.0.3",
+        version="2.1.0",
         author="Yucheng Liu",
-        license="Copyright (C) 2022 Yucheng Liu. GNU LGPL3 license.",
+        license="Copyright 2022-2023 Yucheng Liu. GNU LGPL3 license.",
         description="LYC's personal Python utilities.",
         # ----
         packages=_find_packages(),
